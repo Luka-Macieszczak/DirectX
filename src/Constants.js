@@ -1,9 +1,10 @@
 const Constsants = {
     SERVER_URL: 'http://localhost:4005',
-    REGISTER_SUCCESS:'REGISTER_SUCCESS',
-    REGISTER_FAILURE:'REGISTER_FAILURE',
+
     DEFAULT_REGISTER_FAILURE:'This user already exists',
-    
+    REGISTER_COMPLETE:'REGISTER_COMPLETE',
+    DEFAULT_REGISTER_FAILURE:'This user already exists',
+
     GET_SALT:'get salt',
     SALT_COMPLETE:'salt complete',
     LOGIN_ATTEMPT:'login attempt',
@@ -11,7 +12,11 @@ const Constsants = {
     LOGIN_COMPLETE:'login complete',
 
     USER_NOT_FOUND_ERR:'user not found',
-    INCORRECT_PASSWORD_ERR:'incorrect password'
+    INCORRECT_PASSWORD_ERR:'incorrect password',
+
+    START_STREAM:'start stream',
+    END_STREAM:'end stream',
+    JOIN_STREAM_REQUEST:'join stream request'
 }
 
 export default Constsants

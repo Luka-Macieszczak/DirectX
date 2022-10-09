@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import { sha256 } from "js-sha256";
 import { useNavigate } from "react-router-dom";
 import UserContext from "../Util/UserContext";
+import Constsants from "../Constants";
 
 const Register = () => {
 
@@ -38,6 +39,14 @@ const Register = () => {
         }
         console.log(userContext.user)
         userContext.session.emit('register attempt', userObj);
+
+        userContext.session.on(Constsants.REGISTER_COMPLETE, (res) => {
+            if(res.result != Constsants.DEFAULT_REGISTER_FAILURE){
+                userContext.setUser(res.user);
+                navigate('/')
+            }
+            
+        })
     }
 
     const handleChangeUsername = (event) => {
