@@ -10,6 +10,12 @@
       w-1/6 bg-zinc-900 shadow-lg;
     }
 
+    .chat-container {
+      @apply fixed top-0 left-[75%]
+      flex flex-col h-screen 
+      w-1/4 bg-zinc-900 shadow-lg;
+    }
+
     .signin-button {
       @apply p-5 bg-zinc-700 w-[90%] active:bg-indigo-600
     text-white rounded-xl mt-36

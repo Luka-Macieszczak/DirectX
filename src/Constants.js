@@ -1,4 +1,4 @@
-const Constsants = {
+const Constants = {
     SERVER_URL: 'http://localhost:4005',
 
     DEFAULT_REGISTER_FAILURE:'This user already exists',
@@ -16,7 +16,11 @@ const Constsants = {
 
     START_STREAM:'start stream',
     END_STREAM:'end stream',
-    JOIN_STREAM_REQUEST:'join stream request'
+    JOIN_STREAM_REQUEST:'join stream request',
+
+    SEND_WEBRTC_CONNECTION_REQUEST:'Send request for webrtc connection',
+
+    MESSAGE:'message'
 }
 
-export default Constsants
+export default Constants
