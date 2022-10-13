@@ -21,10 +21,10 @@ const ChatBox = (props) => {
     */
     useEffect(() => {
         userContext.session.on(Constsants.MESSAGE, (messageObj) => {
-            setMessages([...messages, messageObj])
-            console.log('Message received: ', messages)
+            setMessages([...messages, {username: messageObj.username, message: messageObj.message, isSender: false}])
+            console.log('Message received: ', messageObj)
         })
-    }, [])
+    }, [messages])
 
     const sendMessage = () => {
         userContext.session.emit(Constsants.MESSAGE, {
@@ -39,9 +39,10 @@ const ChatBox = (props) => {
         setText(event.target.value)
     }
 
-    const _handleKeyDown = (event) => {
+    const handleKeyDown = (event) => {
         if(event.key === 'Enter'){
             sendMessage()
+            setMessages([...messages, {username: userContext.user.username, message:text, isSender:true}])
         }
             
     }
@@ -53,7 +54,7 @@ const ChatBox = (props) => {
             {messages.map((item) => {
                 return (<TextBubble text={item.message} uri={'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'}/>)
             })}
-            <input onKeyDown={_handleKeyDown} onChange={_handleChangeText} placeholder='    Send Message' className='bg-zinc-700 w-2/6 mx-auto h-[6%] rounded-md top-[90%] fixed'></input>
+            <input onKeyDown={handleKeyDown} onChange={_handleChangeText} placeholder='    Send Message' className='bg-zinc-700 w-2/6 mx-auto h-[6%] rounded-md top-[90%] fixed'></input>
         </div>
     );
 }

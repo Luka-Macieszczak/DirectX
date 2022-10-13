@@ -1,11 +1,47 @@
-import Constsants from "../Constants";
-import UserContext from "./UserContext";
+import Constants from "../Constants";
 
 
-const requestConnection = (context) => {
-    listenIceCandidate()
+const requestConnection = (context, streamerUsername) => {
+    let rtcPeerConnection;
+    listenIceCandidate();
 
-    context.session.emit(Constsants.SEND_WEBRTC_CONNECTION_REQUEST, {socketID: userContext.session.io.engine.id})
+    context.session.emit(Constants.WEBRTC_CONNECTION_REQUEST, {streamerUsername:streamerUsername, 
+    socketID: context.session.io.engine.id})
+
+    context.session.on(Constants.OFFER, (dataObj) => {
+
+        console.log('offer received');
+        rtcPeerConnection = new RTCPeerConnection(iceServers);
+
+        // Sends ice candidates to other peer when available
+        rtcPeerConnection.onicecandidate = (event) => {
+            if(event.candidate) {
+                console.log('sending candidate: ', event.candidate);
+                context.session.emit(Constants.CANDIDATE, {
+                    type:Constants.CANDIDATE,
+                    label:event.candidate.sdpMLineIndex,
+                    id: event.candidate.sdpMid,
+                    candidate: event.candidate.candidate,
+                    toSocketID: dataObj.toSocketID
+                });
+            }
+        };
+
+        // Send answer to offer along with session description
+        rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(dataObj.sessionDescription));
+        rtcPeerConnection.createAnswer()
+        .then((sessionDescription) => {
+            rtcPeerConnection.setLocalDescription(sessionDescription);
+            context.session.emit(Config.ANSWER, {
+                type:Config.ANSWER,
+                sdp: sessionDescription,
+                toSocketID: dataObj.toSocketID
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    })
 
 
 
@@ -24,82 +60,4 @@ const listenIceCandidate = (context, rtcPeerConnection) => {
     });
 }
 
-const onIceCandidate = (event) => {
-    if(event.candidate) {
-        console.log('sending candidate: ', event.candidate);
-        console.log('this object : ', this, ' this roomname: ', this.roomName);
-
-        this.socket.emit(Config.CANDIDATE, {
-            type:Config.CANDIDATE,
-            label:event.candidate.sdpMLineIndex,
-            id: event.candidate.sdpMid,
-            candidate: event.candidate.candidate,
-            room: this.roomName
-        });
-    }
-};
-
-    
-
-    //When ready, send offer with session description
-    //Create datachannel associated with connection
-    this.socket.on(Config.READY,() => {
-        
-        this.roomInfo[this.roomName].rtcPeerConnection.onicecandidate 
-        
-
-        this.roomInfo[this.roomName].rtcPeerConnection.createOffer()
-            .then((sessionDescription) => {
-                this.roomInfo[this.roomName].rtcPeerConnection.setLocalDescription(sessionDescription);
-                this.socket.emit(Config.OFFER, {
-                    type:Config.OFFER,
-                    sdp: sessionDescription,
-                    room: this.roomName
-                });
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    });
-    //After receiving offer, send back answer with session description
-    //Join datachannel associated with connection
-    this.socket.on(Config.OFFER,(event) => {
-        console.log('offer received');
-        this.roomInfo[this.roomName].rtcPeerConnection = new RTCPeerConnection(this.iceServers);
-        //Sends ice candidates to other peer
-        this.roomInfo[this.roomName].rtcPeerConnection.onicecandidate = (event) => {
-            if(event.candidate) {
-                console.log('sending candidate: ', event.candidate);
-                this.socket.emit(Config.CANDIDATE, {
-                    type:Config.CANDIDATE,
-                    label:event.candidate.sdpMLineIndex,
-                    id: event.candidate.sdpMid,
-                    candidate: event.candidate.candidate,
-                    room: this.roomName
-                });
-            }
-        };
-
-        this.roomInfo[this.roomName].rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(event));
-
-        this.roomInfo[this.roomName].rtcPeerConnection.createAnswer()
-            .then((sessionDescription) => {
-                this.roomInfo[this.roomName].rtcPeerConnection.setLocalDescription(sessionDescription);
-                this.socket.emit(Config.ANSWER, {
-                    type:Config.ANSWER,
-                    sdp: sessionDescription,
-                    room: this.roomName
-                })
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-
-
-    this.socket.on(Config.ANSWER,(event) => {
-        console.log('Answer received');
-        this.roomInfo[this.roomName].rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(event));
-    })
-    }
-
-export default requestConnection
+export default requestConnection;

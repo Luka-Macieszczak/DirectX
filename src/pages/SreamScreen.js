@@ -23,7 +23,7 @@ const StreamScreen = () => {
             
         })
         return () => {
-            navigator.mediaDevices.getDisplayMedia({video:false})
+            // navigator.mediaDevices.getDisplayMedia({video:false})
             console.log('test')
             const streamObj = {
                 socketID: userContext.session.io.engine.id, 
