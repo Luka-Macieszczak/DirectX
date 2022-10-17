@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import UserContext from './Util/UserContext';
+import React, {useState, useEffect} from 'react';
+import {ContextProvider} from './Util/UserContext';
 import logo from './logo.svg';
 import './App.css';
 import './pages/MainPage'
@@ -13,13 +13,30 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import SignIn from './pages/SignIn';
 import Constants from './Constants';
 
+
 function App() {
-    const session = io.connect(Constants.SERVER_URL, {jsonp: false})
+
+    // const session  = io.connect(Constants.SERVER_URL, {jsonp: false});;
 
     const [user, setUser] = useState(null)
+    // const [sessionID, setSessionID] = useState('')
+    /*
+    useEffect(() => {
 
+      session.on(Constants.SUCCESSFUL_CONNECTION, (ID) => {
+          setSessionID(ID);
+          console.log('sokcet id: ', ID);
+      })
+
+
+
+      return () => {
+        session.disconnect();
+      }
+    }, [])
+     */
     return (
-    <UserContext.Provider value={{user: user, setUser: setUser, session: session}}>
+    <ContextProvider>
       <Router>
         <Routes>
           <Route exact path='/' element={< MainPage />}></Route>
@@ -30,7 +47,7 @@ function App() {
           <Route exact path='/ViewStreamScreen' element={ <ViewStreamScreen/>}></Route>
         </Routes>
       </Router>
-    </UserContext.Provider>
+    </ContextProvider>
   );
 }
 

@@ -1,23 +1,32 @@
 import Constants from "../Constants";
 
 
-const requestConnection = (context, streamerUsername) => {
+const requestConnection = (session, streamerUsername, videoRef, sessionID,) => {
+    console.log('request hit')
+
     let rtcPeerConnection;
-    listenIceCandidate();
 
-    context.session.emit(Constants.WEBRTC_CONNECTION_REQUEST, {streamerUsername:streamerUsername, 
-    socketID: context.session.io.engine.id})
+    session.emit(Constants.WEBRTC_CONNECTION_REQUEST, {streamerUsername:streamerUsername,
+    socketID: sessionID})
 
-    context.session.on(Constants.OFFER, (dataObj) => {
+    session.on(Constants.OFFER, (dataObj) => {
 
         console.log('offer received');
-        rtcPeerConnection = new RTCPeerConnection(iceServers);
+        rtcPeerConnection = new RTCPeerConnection(Constants.ICE_SERVERS);
+        listenIceCandidate(session, rtcPeerConnection);
+
+        rtcPeerConnection.addEventListener('track', (e) => {
+            if (videoRef.current.srcObject !== e.streams[0]) {
+                videoRef.current.srcObject = e.streams[0];
+                console.log('received remote stream');
+            }
+        })
 
         // Sends ice candidates to other peer when available
         rtcPeerConnection.onicecandidate = (event) => {
             if(event.candidate) {
                 console.log('sending candidate: ', event.candidate);
-                context.session.emit(Constants.CANDIDATE, {
+                session.emit(Constants.CANDIDATE, {
                     type:Constants.CANDIDATE,
                     label:event.candidate.sdpMLineIndex,
                     id: event.candidate.sdpMid,
@@ -32,8 +41,8 @@ const requestConnection = (context, streamerUsername) => {
         rtcPeerConnection.createAnswer()
         .then((sessionDescription) => {
             rtcPeerConnection.setLocalDescription(sessionDescription);
-            context.session.emit(Config.ANSWER, {
-                type:Config.ANSWER,
+            session.emit(Constants.ANSWER, {
+                type:Constants.ANSWER,
                 sdp: sessionDescription,
                 toSocketID: dataObj.toSocketID
             })
@@ -48,9 +57,9 @@ const requestConnection = (context, streamerUsername) => {
 }
 
 // Add candidate received from other peer
-const listenIceCandidate = (context, rtcPeerConnection) => {
-    
-    context.session.on(Config.CANDIDATE,(event) => {
+const listenIceCandidate = (session, rtcPeerConnection) => {
+
+    session.on(Constants.CANDIDATE,(event) => {
         const candidate = new RTCIceCandidate({
             sdpMLineIndex: event.label,
             candidate: event.candidate,

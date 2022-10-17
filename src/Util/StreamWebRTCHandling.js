@@ -1,28 +1,39 @@
 import Constants from "../Constants"
 
-const onConnectRequest = (context) => {
+const onConnectRequest = (session, stream, sessionID) => {
+    console.log('on Connect hit')
     let rtcPeerConnection;
-    listenIceCandidate();
 
-    context.session.on(Constants.WEBRTC_CONNECTION_REQUEST, (senderObj) => {
+    const audioTracks = stream.getAudioTracks();
+    const videoTracks = stream.getVideoTracks();
+
+    /*
+    senderObj:{
+        socketID: senders socket ID
+    }
+    */
+    session.on(Constants.WEBRTC_CONNECTION_REQUEST, (senderObj) => {
         console.log('Connect Request received');
-        rtcPeerConnection = new RTCPeerConnection(this.iceServers);
+        rtcPeerConnection = new RTCPeerConnection(Constants.ICE_SERVERS);
+        listenIceCandidate(session, rtcPeerConnection);
+
+        stream.getTracks().forEach(track => rtcPeerConnection.addTrack(track, stream));
 
         // Send ice candidates to peer that requested stream to their socket ID
         rtcPeerConnection.onicecandidate = (event) => {
             if(event.candidate) {
                 console.log('sending candidate: ', event.candidate);
 
-                context.session.emit(Constants.CANDIDATE, {
+                session.emit(Constants.CANDIDATE, {
                     candidateObj:{
                         type:Constants.CANDIDATE,
                         label:event.candidate.sdpMLineIndex,
                         id: event.candidate.sdpMid,
                         candidate: event.candidate.candidate,
-                        
+
                     },
                     toSocketID: senderObj.socketID
-                    
+
                 });
             }
         }
@@ -30,12 +41,12 @@ const onConnectRequest = (context) => {
         // Create offer to connection request
         rtcPeerConnection.createOffer()
         .then((sessionDescription) => {
-            this.rtcPeerConnection.setLocalDescription(sessionDescription);
-            context.session.emit(Constants.OFFER, {
+            rtcPeerConnection.setLocalDescription(sessionDescription);
+            session.emit(Constants.OFFER, {
                 type:Constants.OFFER,
                 sdp: sessionDescription,
                 toSocketID: senderObj.socketID,
-                ownSocketID: context.session.io.engine.id
+                ownSocketID: sessionID
             });
         })
         .catch((error) => {
@@ -43,16 +54,16 @@ const onConnectRequest = (context) => {
         });
     })
 
-    context.session.on(Constants.ANSWER,(sessionDescription) => {
+    session.on(Constants.ANSWER,(sessionDescription) => {
         console.log('Answer received');
         rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(sessionDescription));
     })
 }
 
 // Add candidate received from other peer
-const listenIceCandidate = (context, rtcPeerConnection) => {
-    
-    context.session.on(Config.CANDIDATE,(event) => {
+const listenIceCandidate = (session, rtcPeerConnection) => {
+
+    session.on(Constants.CANDIDATE,(event) => {
         const candidate = new RTCIceCandidate({
             sdpMLineIndex: event.label,
             candidate: event.candidate,

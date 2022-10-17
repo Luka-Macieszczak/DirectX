@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useContext, useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import Constants from "../Constants";
-import UserContext from "../Util/UserContext";
+import onConnectRequest from "../Util/StreamWebRTCHandling";
+import {UserContext} from "../Util/UserContext";
 
 
 const StreamScreen = () => {
@@ -13,31 +14,26 @@ const StreamScreen = () => {
 
     useEffect(() => {
         navigator.mediaDevices.getDisplayMedia({video: { width: { ideal: 1920, max: 1920 },
-        height: { ideal: 1080, max: 1080 } } })
+        height: { ideal: 1080, max: 1080 } }, audio: true })
             .then((currentStream) => {
-            // setStream(currentStream);
-    
-            myVideo.current.srcObject = currentStream;
-            });
-        userContext.session.on(Constants.JOIN_STREAM_REQUEST, () => {
-            
-        })
+                // setStream(currentStream);
+                myVideo.current.srcObject = currentStream;
+            })
+            .catch((err) => {console.log(err)});
+
+        userContext.onJoinRequest();
+
         return () => {
             // navigator.mediaDevices.getDisplayMedia({video:false})
             console.log('test')
-            const streamObj = {
-                socketID: userContext.session.io.engine.id, 
-                username:userContext.user.username,
-                tags:[]
-            }
-            userContext.session.emit(Constants.END_STREAM, streamObj);
+            userContext.endStream();
         }
     }, []);
 
     const startStream = () => {
-        userContext.session.emit(Constants.START_STREAM, {socketID: userContext.session.io.engine.id, 
-        username:userContext.user.username});
+        userContext.startStream();
         setStreamStarted(true);
+        userContext.onConnect(myVideo.current.srcObject);
     }
 
     return (

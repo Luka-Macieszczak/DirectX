@@ -2,7 +2,7 @@ import React, {useState, useContext} from "react";
 import {Link} from "react-router-dom";
 import { sha256 } from "js-sha256";
 import { useNavigate } from "react-router-dom";
-import UserContext from "../Util/UserContext";
+import {UserContext} from "../Util/UserContext";
 import Constsants from "../Constants";
 
 const Register = () => {
@@ -11,19 +11,11 @@ const Register = () => {
 
     const userContext = useContext(UserContext);
 
-    userContext.session.on('REGISTER_SUCCESS', (userObj) => {
-        userContext.setUser(userObj)
-    })
-
-    userContext.session.on('REGISTER_FAILURE', (failure) => {
-        setBottomText('failed')
-    })
-
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [bottomText, setBottomText] = useState('') 
+    const [bottomText, setBottomText] = useState('')
     let passwordsMatch = password === confirmPassword;
     let isInputCollected = username !== '' && email !== '' && password !== '' && confirmPassword !== '';
 
@@ -37,16 +29,20 @@ const Register = () => {
             password:sha256(password + salt),
             salt: salt
         }
+
         console.log(userContext.user)
-        userContext.session.emit('register attempt', userObj);
+        userContext.registerAttempt(userObj, navigate);
+        /*
+        userContext.session.emit(Constsants.REGISTER_ATTEMPT, userObj);
 
         userContext.session.on(Constsants.REGISTER_COMPLETE, (res) => {
             if(res.result != Constsants.DEFAULT_REGISTER_FAILURE){
                 userContext.setUser(res.user);
                 navigate('/')
             }
-            
+
         })
+        */
     }
 
     const handleChangeUsername = (event) => {
@@ -75,7 +71,7 @@ const Register = () => {
                 <button onClick={() => addNewUser()} className='p-5 bg-zinc-700 w-[90%] active:bg-indigo-600 text-white rounded-xl mt-36' type="submit" value="Submit" >
                     Submit
                 </button>
-                
+
                 <div>
                     {bottomText}
                 </div>

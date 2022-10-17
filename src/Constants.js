@@ -1,5 +1,6 @@
 const Constants = {
     SERVER_URL: 'http://localhost:4005',
+    SUCCESSFUL_CONNECTION:'connection success',
 
     DEFAULT_REGISTER_FAILURE:'This user already exists',
     REGISTER_COMPLETE:'REGISTER_COMPLETE',
@@ -17,6 +18,7 @@ const Constants = {
     START_STREAM:'start stream',
     END_STREAM:'end stream',
     JOIN_STREAM_REQUEST:'join stream request',
+    JOIN_STREAM_RESULT:'join stream result',
 
     WEBRTC_CONNECTION_REQUEST:'Send request for webrtc connection',
     CANDIDATE:'candidate',

@@ -1,7 +1,7 @@
 import React, {useState, useContext} from "react";
 import {Link} from "react-router-dom";
 import { sha256 } from "js-sha256";
-import UserContext from "../Util/UserContext";
+import {UserContext} from "../Util/UserContext";
 import { catchEm } from "../Util/catchEm";
 import { useNavigate } from 'react-router-dom'
 import handleSignin from '../Util/HandleSignin'
@@ -12,30 +12,31 @@ const SignIn = () => {
 
     let navigate = useNavigate();
 
-    userContext.session.on('REGISTER_SUCCESS', (userObj) => {
-        userContext.setUser(userObj)
-    })
-
-    userContext.session.on('REGISTER_FAILURE', (failure) => {
-        setBottomText('failed')
-    })
-
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-    const [bottomText, setBottomText] = useState('') 
+    const [bottomText, setBottomText] = useState('')
     let isInputCollected = username !== '' && password !== '';
 
-    const addNewUser = async () => {
+    const login = async () => {
         // create object representing new user with a randomly generated salt
         if(isInputCollected){
+
             const userObj = {username: username, password: password}
+            const err = await userContext.loginAttempt(userObj, navigate);
+
+            if(err) setBottomText(err)
+            else navigate('/')
+
+            /*
             const [err, user] = await catchEm(handleSignin(userContext.session, userObj));
+
             if(err){
                 setBottomText(err)
             } else {
                 userContext.setUser(user)
                 navigate('/')
             }
+             */
             console.log(userContext.user)
         } else{
             setBottomText('Please enter correct fields')
@@ -55,7 +56,7 @@ const SignIn = () => {
             <div className="h-[90%] pl-[3%] rounded-3xl w-1/2 mx-auto bg-zinc-900">
                 <input placeholder="Username" className="signin-form" onChange={handleChangeUsername} type="text" name="name" />
                 <input placeholder="Password" className="signin-form" onChange={handleChangePasssword} type="password" name="name" />
-                <button onClick={() => addNewUser()} className='p-5 bg-zinc-700 w-[90%] active:bg-indigo-600 text-white rounded-xl mt-36' type="submit" value="Submit" >
+                <button onClick={() => login()} className='p-5 bg-zinc-700 w-[90%] active:bg-indigo-600 text-white rounded-xl mt-36' type="submit" value="Submit" >
                     Submit
                 </button>
                 <div className='text-red-600 mx-auto'>

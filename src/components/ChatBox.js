@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useContext} from 'react'
-import UserContext from '../Util/UserContext';
+import {UserContext} from '../Util/UserContext';
 import TextBubble from './TextBubble';
 import { FaUser, FaPoo } from 'react-icons/fa';
 import {Link} from 'react-router-dom'
 import Constsants from '../Constants';
 
- 
+
 const ChatBox = (props) => {
 
     const userContext = useContext(UserContext);
@@ -16,23 +16,15 @@ const ChatBox = (props) => {
     /* Expect data to come in the form of:
         {
             username: x,
-            message: y 
+            message: y
         }
     */
     useEffect(() => {
-        userContext.session.on(Constsants.MESSAGE, (messageObj) => {
-            setMessages([...messages, {username: messageObj.username, message: messageObj.message, isSender: false}])
-            console.log('Message received: ', messageObj)
-        })
+        userContext.handleReceiveChat(messages, setMessages)
     }, [messages])
 
     const sendMessage = () => {
-        userContext.session.emit(Constsants.MESSAGE, {
-            streamerUsername: props.streamerUsername,
-            username: userContext.user.username,
-            message: text
-        })
-        
+        userContext.sendChat(text, props.streamerUsername)
     }
 
     const _handleChangeText = (event) => {
@@ -44,7 +36,7 @@ const ChatBox = (props) => {
             sendMessage()
             setMessages([...messages, {username: userContext.user.username, message:text, isSender:true}])
         }
-            
+
     }
 
 
@@ -60,6 +52,5 @@ const ChatBox = (props) => {
 }
 
 
- 
+
 export default ChatBox;
- 

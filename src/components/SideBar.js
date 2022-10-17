@@ -1,10 +1,10 @@
 import React, {useState, useEffect, useContext} from 'react'
 import SubscriptionItem from './SubscriptionItem';
-import UserContext from '../Util/UserContext';
+import {UserContext} from '../Util/UserContext';
 import { FaUser, FaPoo } from 'react-icons/fa';
 import {Link} from 'react-router-dom'
 
- 
+
 const SideBar = (props) => {
 
     const [subscriptions, setSubscriptions] = useState([]);
@@ -30,15 +30,15 @@ const SideBar = (props) => {
             }
             setSubscriptions([...subscriptions, ...tmp])
         }
-        
-        
+
+
     }
 
     const topHeader = () => {
         if(userContext.user != null) {
             return (
                 <Link to='/ProfileScreen'>
-                    {userContext.user.profilePic != '' ? 
+                    {userContext.user.profilePic != '' ?
                     <img src={userContext.user.profilePic} /> :
                     <SideBarIcon icon={<FaUser color='white' className='mr-20 ml-5 mt-5 border rounded-full border-white' size="28" />} />
                     }
@@ -50,7 +50,7 @@ const SideBar = (props) => {
                 <SideBarIcon icon={<FaUser color='white' className='mr-20 ml-5 mt-5 border rounded-full border-white' size="28" />} />
             </Link>
             )
-        
+
         }
     }
 
@@ -73,6 +73,5 @@ const SideBarIcon = ({ icon, text = 'tooltip 💡' }) => (
       </span>
     </div>
   );
- 
+
 export default SideBar;
- 
