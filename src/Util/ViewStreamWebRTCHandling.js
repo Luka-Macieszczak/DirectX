@@ -8,10 +8,14 @@ const requestConnection = (session, streamerUsername, videoRef, sessionID,) => {
 
     session.emit(Constants.WEBRTC_CONNECTION_REQUEST, {streamerUsername:streamerUsername,
     socketID: sessionID})
-
+    /*
+    dataObj: {
+        sessionDescription: streamers session description
+        toSocketID: streamers socket ID
+     */
     session.on(Constants.OFFER, (dataObj) => {
 
-        console.log('offer received');
+        console.log('offer received: ', dataObj);
         rtcPeerConnection = new RTCPeerConnection(Constants.ICE_SERVERS);
         listenIceCandidate(session, rtcPeerConnection);
 
@@ -37,7 +41,7 @@ const requestConnection = (session, streamerUsername, videoRef, sessionID,) => {
         };
 
         // Send answer to offer along with session description
-        rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(dataObj.sessionDescription));
+        rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(dataObj.sdp));
         rtcPeerConnection.createAnswer()
         .then((sessionDescription) => {
             rtcPeerConnection.setLocalDescription(sessionDescription);

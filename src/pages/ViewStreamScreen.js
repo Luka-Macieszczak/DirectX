@@ -19,6 +19,7 @@ const ViewStreamScreen = (props) => {
 
     useEffect(() => {
         userContext.joinStream(videoRef, location.state.streamerUsername);
+
     }, [])
 
     const connectButtonHandler = () => {

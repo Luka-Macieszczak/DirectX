@@ -1,12 +1,10 @@
 import React, {useState, useEffect} from "react";
 import { io } from 'socket.io-client';
 import Constants from "../Constants";
-import Constsants from "../Constants";
 import {catchEm} from "./catchEm";
 import onConnectRequest from "./StreamWebRTCHandling";
 import requestConnection from "./ViewStreamWebRTCHandling";
-import handleSignin from "./HandleSignin";
-import StreamWebRTCHandling from "./StreamWebRTCHandling";
+import handleSignIn from "../Util/HandleSignin";
 
 const UserContext = React.createContext()
 
@@ -26,10 +24,10 @@ const ContextProvider = ({children}) => {
     }, [])
 
     const registerAttempt = (userObj, navigate) => {
-        session.emit(Constsants.REGISTER_ATTEMPT, userObj);
+        session.emit(Constants.REGISTER_ATTEMPT, userObj);
 
-        session.on(Constsants.REGISTER_COMPLETE, (res) => {
-            if(res.result !== Constsants.DEFAULT_REGISTER_FAILURE){
+        session.on(Constants.REGISTER_COMPLETE, (res) => {
+            if(res.result !== Constants.DEFAULT_REGISTER_FAILURE){
                 setUser(res.user);
                 navigate('/')
             }
@@ -38,7 +36,7 @@ const ContextProvider = ({children}) => {
     }
 
     const loginAttempt = async (userObj, navigate) => {
-        const [err, user] = await catchEm(handleSignin(session, userObj));
+        const [err, user] = await catchEm(handleSignIn(session, userObj));
         if(!err) setUser(user)
         return err
     }
@@ -69,8 +67,9 @@ const ContextProvider = ({children}) => {
         requestConnection(session, streamerUsername, videoRef, sessionID)
     }
 
-    const joinStream = (videoRef, streamerUsername) => {
+    const joinStream = async (videoRef, streamerUsername) => {
         if(!joinedStream){
+            await setJoinedStream(true);
             session.emit(Constants.JOIN_STREAM_REQUEST, {
                 streamerUsername: streamerUsername,
                 username: user.username,
@@ -85,7 +84,6 @@ const ContextProvider = ({children}) => {
             session.on(Constants.JOIN_STREAM_RESULT, (dataObj) => {
                 console.log('Join stream result: ', dataObj)
                 if(dataObj.didSucceed){
-                    setJoinedStream(true);
                     requestConnection(session, streamerUsername, videoRef, sessionID)
                 }
             })
@@ -94,14 +92,14 @@ const ContextProvider = ({children}) => {
     }
 
     const handleReceiveChat = (messages, setMessages) => {
-        session.on(Constsants.MESSAGE, (messageObj) => {
+        session.on(Constants.MESSAGE, (messageObj) => {
             setMessages([...messages, {username: messageObj.username, message: messageObj.message, isSender: false}])
             console.log('Message received: ', messageObj)
         })
     }
 
     const sendChat = (message, streamerUsername) => {
-        session.emit(Constsants.MESSAGE, {
+        session.emit(Constants.MESSAGE, {
             streamerUsername: streamerUsername,
             username: user.username,
             message: message

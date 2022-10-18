@@ -31,9 +31,11 @@ const StreamScreen = () => {
     }, []);
 
     const startStream = () => {
-        userContext.startStream();
-        setStreamStarted(true);
-        userContext.onConnect(myVideo.current.srcObject);
+        if(!streamStarted){
+            userContext.startStream();
+            setStreamStarted(true);
+            userContext.onConnect(myVideo.current.srcObject);
+        }
     }
 
     return (

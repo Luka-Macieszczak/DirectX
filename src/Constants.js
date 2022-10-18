@@ -2,7 +2,6 @@ const Constants = {
     SERVER_URL: 'http://localhost:4005',
     SUCCESSFUL_CONNECTION:'connection success',
 
-    DEFAULT_REGISTER_FAILURE:'This user already exists',
     REGISTER_COMPLETE:'REGISTER_COMPLETE',
     DEFAULT_REGISTER_FAILURE:'This user already exists',
 
@@ -33,7 +32,6 @@ const Constants = {
     },
 
 
-    MESSAGE:'message'
 }
 
 export default Constants
