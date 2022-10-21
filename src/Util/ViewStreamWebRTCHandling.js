@@ -1,7 +1,7 @@
 import Constants from "../Constants";
 
 
-const requestConnection = (session, streamerUsername, videoRef, sessionID,) => {
+const requestConnection = (session, streamerUsername, videoRef, sessionID) => {
     console.log('request hit')
 
     let rtcPeerConnection;
@@ -10,7 +10,7 @@ const requestConnection = (session, streamerUsername, videoRef, sessionID,) => {
     socketID: sessionID})
     /*
     dataObj: {
-        sessionDescription: streamers session description
+        sdp: streamers session description
         toSocketID: streamers socket ID
      */
     session.on(Constants.OFFER, (dataObj) => {
@@ -31,10 +31,12 @@ const requestConnection = (session, streamerUsername, videoRef, sessionID,) => {
             if(event.candidate) {
                 console.log('sending candidate: ', event.candidate);
                 session.emit(Constants.CANDIDATE, {
+                    candidateObj: {
                     type:Constants.CANDIDATE,
                     label:event.candidate.sdpMLineIndex,
                     id: event.candidate.sdpMid,
                     candidate: event.candidate.candidate,
+                    },
                     toSocketID: dataObj.toSocketID
                 });
             }
@@ -63,11 +65,19 @@ const requestConnection = (session, streamerUsername, videoRef, sessionID,) => {
 // Add candidate received from other peer
 const listenIceCandidate = (session, rtcPeerConnection) => {
 
-    session.on(Constants.CANDIDATE,(event) => {
+    /*
+        candidateObj:{
+            type: "candidate"
+            label: sdpMLineIndex,
+            id: sdpMid,
+            candidate: candidate,
+        }
+    */
+    session.on(Constants.CANDIDATE,(candidateObj) => {
         const candidate = new RTCIceCandidate({
-            sdpMLineIndex: event.label,
-            candidate: event.candidate,
-            sdpMid: event.id
+            sdpMLineIndex: candidateObj.label,
+            candidate: candidateObj.candidate,
+            sdpMid: candidateObj.id
         });
         rtcPeerConnection.addIceCandidate(candidate);
     });

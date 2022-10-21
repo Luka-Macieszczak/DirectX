@@ -19,7 +19,9 @@ const ViewStreamScreen = (props) => {
 
     useEffect(() => {
         userContext.joinStream(videoRef, location.state.streamerUsername);
-
+        return () => {
+            console.log('view stream timed out')
+        }
     }, [])
 
     const connectButtonHandler = () => {

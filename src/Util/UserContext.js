@@ -8,12 +8,13 @@ import handleSignIn from "../Util/HandleSignin";
 
 const UserContext = React.createContext()
 
-const session  = io.connect(Constants.SERVER_URL, {jsonp: false});;
+const session  = io.connect(Constants.SERVER_URL, {jsonp: false});
 
 const ContextProvider = ({children}) => {
     const [user, setUser] = useState(null);
     const [sessionID, setSessionID] = useState('');
     const [joinedStream, setJoinedStream] = useState(false);
+    const [viewers, setViewers] = useState([])
 
     useEffect(() => {
 
@@ -60,16 +61,16 @@ const ContextProvider = ({children}) => {
         });
     }
     const onConnect = (src) => {
-        onConnectRequest(session, src, sessionID)
+        onConnectRequest(session, src, sessionID);
     }
 
     const connect = (videoRef, streamerUsername) => {
         requestConnection(session, streamerUsername, videoRef, sessionID)
     }
 
-    const joinStream = async (videoRef, streamerUsername) => {
+    const joinStream = (videoRef, streamerUsername) => {
         if(!joinedStream){
-            await setJoinedStream(true);
+            setJoinedStream(true);
             session.emit(Constants.JOIN_STREAM_REQUEST, {
                 streamerUsername: streamerUsername,
                 username: user.username,
@@ -124,7 +125,9 @@ const ContextProvider = ({children}) => {
             sendChat,
             connect,
             joinedStream,
-            setJoinedStream
+            setJoinedStream,
+            viewers,
+            setViewers
         }}>
             {children}
         </UserContext.Provider>

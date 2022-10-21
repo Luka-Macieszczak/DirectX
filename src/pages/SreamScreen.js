@@ -9,19 +9,20 @@ const StreamScreen = () => {
     let navigate = useNavigate()
     const userContext = useContext(UserContext);
     const [streamStarted, setStreamStarted] = useState(false);
+    const [gotMedia, setGotMedia] = useState(false);
 
     const myVideo = useRef();
 
     useEffect(() => {
         navigator.mediaDevices.getDisplayMedia({video: { width: { ideal: 1920, max: 1920 },
         height: { ideal: 1080, max: 1080 } }, audio: true })
-            .then((currentStream) => {
-                // setStream(currentStream);
-                myVideo.current.srcObject = currentStream;
-            })
-            .catch((err) => {console.log(err)});
+        .then((currentStream) => {
+            // setStream(currentStream);
+            myVideo.current.srcObject = currentStream;
+            setGotMedia(true);
+        })
+        .catch((err) => {console.log(err)});
 
-        userContext.onJoinRequest();
 
         return () => {
             // navigator.mediaDevices.getDisplayMedia({video:false})
@@ -30,9 +31,17 @@ const StreamScreen = () => {
         }
     }, []);
 
+    useEffect(() => {
+        if(gotMedia){
+            userContext.onConnect(myVideo.current.srcObject);
+            userContext.onJoinRequest();
+        }
+    }, [userContext.viewers])
+
     const startStream = () => {
         if(!streamStarted){
             userContext.startStream();
+            userContext.onJoinRequest();
             setStreamStarted(true);
             userContext.onConnect(myVideo.current.srcObject);
         }
