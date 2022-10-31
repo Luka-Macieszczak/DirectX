@@ -68,7 +68,7 @@ const Register = () => {
                 <input  placeholder="Email" className="signin-form" onChange={handleChangeEmail} type="text" name="name" />
                 <input placeholder="Password" className="signin-form" onChange={handleChangePasssword} type="password" name="name" />
                 <input placeholder="Confirm Password" className="signin-form" onChange={handleChangePasswordConfirmation} type="password" name="name" />
-                <button onClick={() => addNewUser()} className='p-5 bg-zinc-700 w-[90%] active:bg-indigo-600 text-white rounded-xl mt-36' type="submit" value="Submit" >
+                <button onClick={() => addNewUser()} className='p-5 bg-zinc-700 w-[90%] active:bg-red text-white rounded-xl mt-36' type="submit" value="Submit" >
                     Submit
                 </button>
 
@@ -76,7 +76,7 @@ const Register = () => {
                     {bottomText}
                 </div>
 
-                <button onClick={() => navigate('/SignIn')} className='p-5 bg-zinc-700 w-[90%] active:bg-indigo-600 text-white rounded-xl mt-6' type="submit" value="Submit" >
+                <button onClick={() => navigate('/SignIn')} className='p-5 bg-zinc-700 w-[90%] active:bg-red text-white rounded-xl mt-6' type="submit" value="Submit" >
                     Sign In
                 </button>
             </div>

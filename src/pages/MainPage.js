@@ -1,7 +1,8 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import SideBar from '../components/SideBar';
- 
+import StreamScroll from "../components/StreamScroll";
+
 let height = window.innerHeight
 const MainPage = (props) => {
 
@@ -16,18 +17,17 @@ const MainPage = (props) => {
 
 
     return (
-        <div className='h-screen bg-zinc-800'>
+        <div className='h-full bg-zinc-800'>
             <SideBar />
-            <button onClick={() => navigate('/ViewStreamScreen', {state:{streamerUsername: 'Jeff'}})} className='h-20 w-1/2 bg-purple-600'>Join Jeffs Stream</button>
-            <div className={'h-2/3 w-screen'}>
-                <img className={imageClass} src={getMainImage()}/>
+            <button onClick={() => navigate('/ViewStreamScreen', {state:{streamerUsername: 'Jeff'}})} className='h-20 w-1/2 bg-yellow'>Join Jeffs Stream</button>
+            <div className={'h-1/3 w-screen'}>
+
             </div>
-            <div>
-                
-            </div>
+            <StreamScroll />
+            <StreamScroll />
+            <StreamScroll />
         </div>
     );
 }
- 
+
 export default MainPage;
- 

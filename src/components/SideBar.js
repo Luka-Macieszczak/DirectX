@@ -25,7 +25,7 @@ const SideBar = (props) => {
             setSubscriptions([...subscriptions, ...tmp])
         } else {
             let tmp = []
-            for(let i =0; i < 10; i++) {
+            for(let i =0; i < 20; i++) {
                 tmp.push('blah')
             }
             setSubscriptions([...subscriptions, ...tmp])
@@ -38,7 +38,7 @@ const SideBar = (props) => {
         if(userContext.user != null) {
             return (
                 <Link to='/ProfileScreen'>
-                    {userContext.user.profilePic != '' ?
+                    {userContext.user.profilePic !== '' ?
                     <img src={userContext.user.profilePic} /> :
                     <SideBarIcon icon={<FaUser color='white' className='mr-20 ml-5 mt-5 border rounded-full border-white' size="28" />} />
                     }
@@ -57,7 +57,7 @@ const SideBar = (props) => {
     return (
         <div className='sidebar-container'>
             {topHeader()}
-            <div className='bg-zinc-800 w-5/6 mx-auto my-5 h-[4px] rounded-sm'>.</div>
+            <div className='bg-orange w-5/6 mx-auto my-5 h-[4px] rounded-sm'>.</div>
             {subscriptions.map((item) => {
                 return (<SubscriptionItem uri={'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'}/>)
             })}

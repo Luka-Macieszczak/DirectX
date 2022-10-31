@@ -56,13 +56,13 @@ const SignIn = () => {
             <div className="h-[90%] pl-[3%] rounded-3xl w-1/2 mx-auto bg-zinc-900">
                 <input placeholder="Username" className="signin-form" onChange={handleChangeUsername} type="text" name="name" />
                 <input placeholder="Password" className="signin-form" onChange={handleChangePasssword} type="password" name="name" />
-                <button onClick={() => login()} className='p-5 bg-zinc-700 w-[90%] active:bg-indigo-600 text-white rounded-xl mt-36' type="submit" value="Submit" >
+                <button onClick={() => login()} className='p-5 bg-zinc-700 w-[90%] active:bg-red text-white rounded-xl mt-36' type="submit" value="Submit" >
                     Submit
                 </button>
                 <div className='text-red-600 mx-auto'>
                     {bottomText}
                 </div>
-                <button onClick={() => navigate('/Register')} className='p-5 bg-zinc-700 w-[90%] active:bg-indigo-600 text-white rounded-xl mt-6' type="submit" value="Submit" >
+                <button onClick={() => navigate('/Register')} className='p-5 bg-zinc-700 w-[90%] active:bg-red text-white rounded-xl mt-6' type="submit" value="Submit" >
                     Register
                 </button>
             </div>

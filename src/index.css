@@ -5,14 +5,16 @@
 
 @layer components {
     .sidebar-container {
-      @apply fixed top-0 left-0 
-      flex flex-col h-screen 
+      @apply fixed top-0 left-0
+      flex flex-col h-screen
+      overflow-y-scroll
       w-1/6 bg-zinc-900 shadow-lg;
+
     }
 
     .chat-container {
       @apply fixed top-0 left-[75%]
-      flex flex-col h-screen 
+      flex flex-col h-screen
       w-1/4 bg-zinc-900 shadow-lg;
     }
 
@@ -27,9 +29,9 @@
     }
 
     .subscription-item {
-      @apply  flex flex-row h-[6%] w-11/12 
-      bg-zinc-800 
-      hover:bg-indigo-800
+      @apply  flex flex-row h-[6%] w-11/12
+      bg-zinc-800
+      hover:bg-orange
       mx-auto
       my-[7px]
       hover:rounded-xl rounded-3xl
