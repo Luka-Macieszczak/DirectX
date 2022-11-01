@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import SideBar from '../components/SideBar';
 import StreamScroll from "../components/StreamScroll";
+import Constants from "../Constants";
 
 let height = window.innerHeight
 const MainPage = (props) => {
@@ -22,7 +23,15 @@ const MainPage = (props) => {
             <div className={'h-1/3 w-screen'}>
 
             </div>
-            <StreamScroll tag='test'/>
+            {Constants.TAGS.map((tag) => {
+                return(
+                    <div>
+                        <div className='ml-1/2'>{tag}</div>
+                        <StreamScroll tag={tag}/>
+                    </div>
+                )
+            })}
+
         </div>
     );
 }

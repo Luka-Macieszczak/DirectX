@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Constants from "../Constants";
 import onConnectRequest from "../Util/StreamWebRTCHandling";
 import {UserContext} from "../Util/UserContext";
+import TagBox from "../components/TagBox";
 
 
 const StreamScreen = () => {
@@ -53,7 +54,12 @@ const StreamScreen = () => {
 
     return (
         <div className="h-screen w-screen bg-zinc-700 pt-[5%]">
-            <video playsInline muted ref={myVideo} autoPlay={true} className='h-1/2 w-1/2' />
+            <video playsInline muted ref={myVideo} autoPlay={true} className='h-2/3 w-2/3 mx-auto' />
+            <div className='mx-auto flex flex-row mt-5 w-1/2 px-[1%]'>
+                {Constants.TAGS.map((tag) => {
+                    return <TagBox tags={tags} setTags={setTags} streamStarted={streamStarted} tag={tag}/>
+                })}
+            </div>
             <button onClick={() => startStream()} className="signin-button mx-auto bg-zinc-900">Start Stream</button>
             <button onClick={() => navigate('/ProfileScreen')} className="signin-button mx-auto bg-zinc-900">ugly go back</button>
 

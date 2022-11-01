@@ -22,6 +22,8 @@ const Constants = {
     REQUEST_STREAMS_ACK:'ackknowledge requested streams',
     NEW_STREAM:'new stream',
 
+    TAGS:['Gaming', 'Educational', 'Music', 'Creative', 'Real Life'],
+
     WEBRTC_CONNECTION_REQUEST:'Send request for webrtc connection',
     CANDIDATE:'candidate',
     OFFER:'offer',
