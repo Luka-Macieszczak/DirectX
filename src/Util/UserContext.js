@@ -11,7 +11,7 @@ const UserContext = React.createContext()
 const session  = io.connect(Constants.SERVER_URL, {jsonp: false});
 
 const ContextProvider = ({children}) => {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState('anon');
     const [sessionID, setSessionID] = useState('');
     const [joinedStream, setJoinedStream] = useState(false);
     const [viewers, setViewers] = useState([])
@@ -43,6 +43,7 @@ const ContextProvider = ({children}) => {
     }
 
     const startStream = (tags) => {
+        console.log('tags: ', tags)
         session.emit(Constants.START_STREAM, {socketID: sessionID,
             username: user.username, tags: tags});
     }
@@ -107,6 +108,29 @@ const ContextProvider = ({children}) => {
         })
     }
 
+    const requestStreams = (tag) => {
+        session.emit(Constants.REQUEST_STREAMS, ({tag: tag}))
+    }
+
+    /*
+    dataObj: {
+        streams: list of streams
+    }
+     */
+    const listenStreams = (streams, setStreams) => {
+        session.on(Constants.REQUEST_STREAMS_ACK, (dataObj) => {
+            console.log('streams received: ' , ...dataObj.streams)
+            setStreams([...streams, ...dataObj.streams])
+        })
+    }
+
+    const listenNewStreams = (streams, setStreams) =>{
+        session.on(Constants.NEW_STREAM, (dataObj) => {
+            console.log('new stream received: ' , dataObj.stream)
+            setStreams([...streams, dataObj.stream])
+        })
+    }
+
 
     return (
         <UserContext.Provider value={{
@@ -124,6 +148,9 @@ const ContextProvider = ({children}) => {
             handleReceiveChat,
             sendChat,
             connect,
+            requestStreams,
+            listenStreams,
+            listenNewStreams,
             joinedStream,
             setJoinedStream,
             viewers,

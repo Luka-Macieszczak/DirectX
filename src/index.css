@@ -15,6 +15,7 @@
     .chat-container {
       @apply fixed top-0 left-[75%]
       flex flex-col h-screen
+      overflow-y-scroll
       w-1/4 bg-zinc-900 shadow-lg;
     }
 

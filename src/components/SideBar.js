@@ -35,7 +35,7 @@ const SideBar = (props) => {
     }
 
     const topHeader = () => {
-        if(userContext.user != null) {
+        if(userContext.user !== 'anon') {
             return (
                 <Link to='/ProfileScreen'>
                     {userContext.user.profilePic !== '' ?

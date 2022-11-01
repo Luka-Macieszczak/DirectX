@@ -10,12 +10,12 @@ const StreamScreen = () => {
     const userContext = useContext(UserContext);
     const [streamStarted, setStreamStarted] = useState(false);
     const [gotMedia, setGotMedia] = useState(false);
-    const [tags, setTags] = useState(new Set());
+    const [tags, setTags] = useState({});
 
     const myVideo = useRef();
 
     useEffect(() => {
-        setTags(new Set([...tags, 'test']))
+        setTags({test: 'test'})
 
         navigator.mediaDevices.getDisplayMedia({video: { width: { ideal: 1920, max: 1920 },
         height: { ideal: 1080, max: 1080 } }, audio: true })
@@ -42,6 +42,7 @@ const StreamScreen = () => {
     }, [userContext.viewers])
 
     const startStream = () => {
+        console.log(tags)
         if(!streamStarted){
             userContext.startStream(tags);
             userContext.onJoinRequest();

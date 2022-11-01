@@ -1,76 +1,37 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import {UserContext} from "../Util/UserContext";
 import {useNavigate} from 'react-router-dom'
 
 const StreamScroll = (props) => {
     const [streams, setStreams] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
+    const userContext = useContext(UserContext);
+
+    const navigate = useNavigate();
+
     useEffect(() => {
-        getData();
+        userContext.requestStreams(props.tag)
+        setLoading(false)
+        console.log(props.tag)
     }, [])
 
-    const getData = async () => {
-        // GET DATA FROM SERVER
-        await setStreams({
-            streams: [{
-                username: 'test',
-                image: "https://fomantic-ui.com/images/wireframe/white-image.png"
-            },
-            {
-                username: 'bob',
-                image: "https://fomantic-ui.com/images/wireframe/white-image.png"
-            },
-            {
-                username: 'joe',
-                image: "https://fomantic-ui.com/images/wireframe/white-image.png"
-            },
-            {
-                username: 'bob',
-                image: "https://fomantic-ui.com/images/wireframe/white-image.png"
-            },
-            {
-                username: 'joe',
-                image: "https://fomantic-ui.com/images/wireframe/white-image.png"
-            },
-                {
-                    username: 'bob',
-                    image: "https://fomantic-ui.com/images/wireframe/white-image.png"
-                },
-                {
-                    username: 'joe',
-                    image: "https://fomantic-ui.com/images/wireframe/white-image.png"
-                },
-                {
-                    username: 'bob',
-                    image: "https://fomantic-ui.com/images/wireframe/white-image.png"
-                },
-                {
-                    username: 'joe',
-                    image: "https://fomantic-ui.com/images/wireframe/white-image.png"
-                },
-                {
-                    username: 'bob',
-                    image: "https://fomantic-ui.com/images/wireframe/white-image.png"
-                },
-                {
-                    username: 'joe',
-                    image: "https://fomantic-ui.com/images/wireframe/white-image.png"
-                },
+    useEffect(() => {
+        userContext.listenStreams(streams, setStreams)
+        userContext.listenNewStreams(streams, setStreams)
+        console.log(streams)
+    }, [streams])
 
 
-            ]
-        })
-        setLoading(false)
-    }
 
     return(
-        <div className="h-60 flex bg-yellow mt-24">
+        <div className="h-60 ml-[16.67%] w-5/6 flex bg-yellow mt-24">
             <div className='flex flex-row overflow-x-scroll'>
                 {!loading ?
-                streams.streams.map((element) => {
+                streams.map((element) => {
+                    console.log('mapping: ', element)
                         return (
-                            <div className="object-contain w-full max-h-48">
-                                <img alt={"test"} className="w-full max-h-48" src={element.image} />
+                            <div onClick={() => navigate('/ViewStreamScreen', {state:{streamerUsername: element.username}})} className="object-contain w-full max-h-48">
+                                <img alt={"test"} className="w-full max-h-48" src='https://fomantic-ui.com/images/wireframe/white-image.png' />
                                 <div className='w-36 break-words'>{element.username}</div>
                             </div>
                         );

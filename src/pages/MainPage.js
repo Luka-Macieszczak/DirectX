@@ -17,15 +17,12 @@ const MainPage = (props) => {
 
 
     return (
-        <div className='h-full bg-zinc-800'>
+        <div className='h-screen bg-zinc-800'>
             <SideBar />
-            <button onClick={() => navigate('/ViewStreamScreen', {state:{streamerUsername: 'Jeff'}})} className='h-20 w-1/2 bg-yellow'>Join Jeffs Stream</button>
             <div className={'h-1/3 w-screen'}>
 
             </div>
-            <StreamScroll />
-            <StreamScroll />
-            <StreamScroll />
+            <StreamScroll tag='test'/>
         </div>
     );
 }
