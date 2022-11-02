@@ -131,11 +131,29 @@ const ContextProvider = ({children}) => {
         tags: tags of new stream
     }
      */
-    const listenNewStreams = (streams, setStreams, tag) =>{
+    const listenNewStreams = (streams, setStreams, tag) => {
         session.on(Constants.NEW_STREAM, (dataObj) => {
             console.log('new stream received: ' , dataObj.stream)
-            if(dataObj.tags.includes(tag))
-                setStreams([...streams, ...dataObj.streams])
+            if(tag in dataObj.tags)
+                setStreams([...streams, dataObj.stream])
+        })
+    }
+    /*
+    dataObj:{
+        username: username of streamer
+    }
+     */
+    const listenStreamEnd = (streams, setStreams, tag) => {
+        session.on(Constants.STREAM_ENDED, (dataObj) => {
+            console.log('revmoving stream: ', streams)
+            setStreams((current) => {
+                let copy = []
+                for(let i=0;i<current.length;i++) {
+                    if(current[i].username !== dataObj.username)
+                        copy.push(current[i])
+                }
+                return copy
+            })
         })
     }
 
@@ -159,6 +177,7 @@ const ContextProvider = ({children}) => {
             requestStreams,
             listenStreams,
             listenNewStreams,
+            listenStreamEnd,
             joinedStream,
             setJoinedStream,
             viewers,

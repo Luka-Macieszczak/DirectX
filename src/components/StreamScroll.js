@@ -18,6 +18,7 @@ const StreamScroll = (props) => {
     useEffect(() => {
         userContext.listenStreams(streams, setStreams, props.tag)
         userContext.listenNewStreams(streams, setStreams, props.tag)
+        userContext.listenStreamEnd(streams, setStreams, props.tag)
         console.log(streams)
     }, [streams])
 
