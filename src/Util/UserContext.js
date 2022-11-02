@@ -42,10 +42,10 @@ const ContextProvider = ({children}) => {
         return err
     }
 
-    const startStream = (tags) => {
+    const startStream = (tags, description) => {
         console.log('tags: ', tags)
         session.emit(Constants.START_STREAM, {socketID: sessionID,
-            username: user.username, tags: tags});
+            username: user.username, tags: tags, description: description});
     }
 
     const onJoinRequest = () => {

@@ -10,6 +10,7 @@ const StreamScreen = () => {
     let navigate = useNavigate()
     const userContext = useContext(UserContext);
     const [streamStarted, setStreamStarted] = useState(false);
+    const [description, setDescription] = useState('');
     const [gotMedia, setGotMedia] = useState(false);
     const [tags, setTags] = useState({});
 
@@ -44,11 +45,23 @@ const StreamScreen = () => {
     const startStream = () => {
         console.log(tags)
         if(!streamStarted){
-            userContext.startStream(tags);
+            userContext.startStream(tags, description);
             userContext.onJoinRequest();
             setStreamStarted(true);
             userContext.onConnect(myVideo.current.srcObject);
         }
+    }
+
+    const handleChangeText = (event) => {
+        console.log(description)
+        setDescription(event.target.value)
+    }
+
+    const handleKeyDown = (event) => {
+        if(event.key === 'Enter'){
+            // do stuff
+        }
+
     }
 
     return (
@@ -56,9 +69,10 @@ const StreamScreen = () => {
             <video playsInline muted ref={myVideo} autoPlay={true} className='h-2/3 w-2/3 mx-auto' />
             <div className='mx-auto flex flex-row mt-5 w-1/2 px-[1%]'>
                 {Constants.TAGS.map((tag) => {
-                    return <TagBox tags={tags} setTags={setTags} streamStarted={streamStarted} tag={tag}/>
+                    return tag !== 'All' ? <TagBox tags={tags} setTags={setTags} streamStarted={streamStarted} tag={tag}/> : <></>
                 })}
             </div>
+            <input onChange={(event) => handleChangeText(event)} onKeyDown={(event) => handleKeyDown(event)} type='text' disabled={streamStarted} placeholder='Description' className='ml-[25%] p-3 w-1/2 mt-[2%] h-[15%] border-zinc-900 border-2 bg-zinc-700 rounded-md'/>
             <button onClick={() => startStream()} className="signin-button mx-auto bg-zinc-900">Start Stream</button>
             <button onClick={() => navigate('/ProfileScreen')} className="signin-button mx-auto bg-zinc-900">ugly go back</button>
 

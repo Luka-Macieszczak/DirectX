@@ -32,7 +32,8 @@ const ViewStreamScreen = (props) => {
     return(
         <div className="h-screen w-screen bg-zinc-700 pt-[5%]">
             <ChatBox streamerUsername={location.state.streamerUsername} />
-            <video playsInline muted ref={videoRef} autoPlay={true} className='h-1/2 w-1/2' />
+            <video playsInline muted ref={videoRef} autoPlay={true} className='h-2/3 mx-auto w-1/2' />
+            <div className='ml-[25%] border-2 border-zinc-900 rounded-md h-[15%]'>{location.state.description}</div>
             <button onClick={() => connectButtonHandler()} className="signin-button mx-auto bg-zinc-900">DEBUG CONNECT</button>
             <button onClick={() => navigate('/ProfileScreen')} className="signin-button mx-auto bg-zinc-900">ugly go back</button>
         </div>

@@ -31,7 +31,7 @@ const StreamScroll = (props) => {
                 streams.map((element) => {
                     console.log('mapping: ', element)
                         return (
-                            <div onClick={() => navigate('/ViewStreamScreen', {state:{streamerUsername: element.username}})} className="object-contain w-full max-h-48">
+                            <div onClick={() => navigate('/ViewStreamScreen', {state:{streamerUsername: element.username, description: element.description}})} className="object-contain w-full max-h-48">
                                 <img alt={"test"} className="w-full max-h-48" src='https://fomantic-ui.com/images/wireframe/white-image.png' />
                                 <div className='w-36 break-words'>{element.username}</div>
                             </div>
