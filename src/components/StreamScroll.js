@@ -16,15 +16,15 @@ const StreamScroll = (props) => {
     }, [])
 
     useEffect(() => {
-        userContext.listenStreams(streams, setStreams)
-        userContext.listenNewStreams(streams, setStreams)
+        userContext.listenStreams(streams, setStreams, props.tag)
+        userContext.listenNewStreams(streams, setStreams, props.tag)
         console.log(streams)
     }, [streams])
 
 
 
     return(
-        <div className="h-60 ml-[16.67%] w-5/6 flex bg-yellow mt-24">
+        <div className="h-60 ml-[16.67%] w-5/6 flex bg-yellow mb-24">
             <div className='flex flex-row overflow-x-scroll'>
                 {!loading ?
                 streams.map((element) => {

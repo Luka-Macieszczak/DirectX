@@ -26,7 +26,7 @@ const MainPage = (props) => {
             {Constants.TAGS.map((tag) => {
                 return(
                     <div>
-                        <div className='ml-1/2'>{tag}</div>
+                        <div className='ml-[20%] text-red'>{tag}</div>
                         <StreamScroll tag={tag}/>
                     </div>
                 )

@@ -117,17 +117,25 @@ const ContextProvider = ({children}) => {
         streams: list of streams
     }
      */
-    const listenStreams = (streams, setStreams) => {
+    const listenStreams = (streams, setStreams, tag) => {
         session.on(Constants.REQUEST_STREAMS_ACK, (dataObj) => {
             console.log('streams received: ' , ...dataObj.streams)
-            setStreams([...streams, ...dataObj.streams])
+            if(dataObj.streams.length > 0 && dataObj.streams[0].tag === tag)
+                setStreams([...streams, ...dataObj.streams])
         })
     }
 
-    const listenNewStreams = (streams, setStreams) =>{
+    /*
+    dataObj: {
+        stream: new stream that came in,
+        tags: tags of new stream
+    }
+     */
+    const listenNewStreams = (streams, setStreams, tag) =>{
         session.on(Constants.NEW_STREAM, (dataObj) => {
             console.log('new stream received: ' , dataObj.stream)
-            setStreams([...streams, dataObj.stream])
+            if(dataObj.tags.includes(tag))
+                setStreams([...streams, ...dataObj.streams])
         })
     }
 

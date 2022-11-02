@@ -22,7 +22,7 @@ const Constants = {
     REQUEST_STREAMS_ACK:'ackknowledge requested streams',
     NEW_STREAM:'new stream',
 
-    TAGS:['Gaming', 'Educational', 'Music', 'Creative', 'Real Life'],
+    TAGS:['All', 'Gaming', 'Educational', 'Music', 'Creative', 'Real Life'],
 
     WEBRTC_CONNECTION_REQUEST:'Send request for webrtc connection',
     CANDIDATE:'candidate',
@@ -30,8 +30,25 @@ const Constants = {
     ANSWER:'answer',
     MESSAGE:'message',
     ICE_SERVERS: {
-        'iceServer': [
-            {'urls': 'stun:stun.services.mozilla.com'},
+        iceServers: [
+            {
+                urls: "stun:openrelay.metered.ca:80",
+            },
+            {
+                urls: "turn:openrelay.metered.ca:80",
+                username: "openrelayproject",
+                credential: "openrelayproject",
+            },
+            {
+                urls: "turn:openrelay.metered.ca:443",
+                username: "openrelayproject",
+                credential: "openrelayproject",
+            },
+            {
+                urls: "turn:openrelay.metered.ca:443?transport=tcp",
+                username: "openrelayproject",
+                credential: "openrelayproject",
+            },
         ]
     },
 

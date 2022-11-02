@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react'
 import SubscriptionItem from './SubscriptionItem';
 import {UserContext} from '../Util/UserContext';
-import { FaUser, FaPoo } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
 import {Link} from 'react-router-dom'
 
 
