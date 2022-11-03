@@ -157,6 +157,10 @@ const ContextProvider = ({children}) => {
         })
     }
 
+    const subscribeTo = (streamerUsername) => {
+        session.emit(Constants.NEW_SUBSCRIPTION, ({streamerUsername: streamerUsername, username: user}))
+    }
+
 
     return (
         <UserContext.Provider value={{
@@ -178,6 +182,7 @@ const ContextProvider = ({children}) => {
             listenStreams,
             listenNewStreams,
             listenStreamEnd,
+            subscribeTo,
             joinedStream,
             setJoinedStream,
             viewers,

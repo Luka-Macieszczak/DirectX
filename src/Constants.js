@@ -23,6 +23,7 @@ const Constants = {
     NEW_STREAM:'new stream',
     STREAM_ENDED: 'stream ended',
 
+    NEW_SUBSCRIPTION:'new subscription',
 
     TAGS:['All', 'Gaming', 'Educational', 'Music', 'Creative', 'Real Life'],
 

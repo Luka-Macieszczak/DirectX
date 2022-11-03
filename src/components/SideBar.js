@@ -7,32 +7,23 @@ import {Link} from 'react-router-dom'
 
 const SideBar = (props) => {
 
-    const [subscriptions, setSubscriptions] = useState([]);
+
+    const [streams, setStreams] = useState([]);
     const userContext = useContext(UserContext);
+
+    useEffect(() => {
+        userContext.requestStreams('All')
+    }, [])
 
 
     useEffect(() => {
-        populateSubscriptions()
-    }, [])
-
-    const populateSubscriptions = async () => {
-        console.log(userContext.user)
-        if(userContext.user != null){
-            let tmp = []
-            for(let val of userContext.user.following) {
-                tmp.push(val)
-            }
-            setSubscriptions([...subscriptions, ...tmp])
-        } else {
-            let tmp = []
-            for(let i =0; i < 20; i++) {
-                tmp.push('blah')
-            }
-            setSubscriptions([...subscriptions, ...tmp])
-        }
+        userContext.listenStreams(streams, setStreams, 'All')
+        userContext.listenNewStreams(streams, setStreams, 'All')
+        userContext.listenStreamEnd(streams, setStreams, 'All')
+        console.log('Sidebar: ', userContext.user)
+    }, [streams])
 
 
-    }
 
     const topHeader = () => {
         if(userContext.user !== 'anon') {
@@ -58,8 +49,11 @@ const SideBar = (props) => {
         <div className='sidebar-container'>
             {topHeader()}
             <div className='bg-orange w-5/6 mx-auto my-5 h-[4px] rounded-sm'>.</div>
-            {subscriptions.map((item) => {
-                return (<SubscriptionItem uri={'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'}/>)
+            {streams.map((stream) => {
+                console.log(stream)
+                return userContext.user !== 'anon' && userContext.user.subscriptions.includes(stream.username) ?
+                    <SubscriptionItem description={stream.description} username={stream.username} uri={'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'}/>
+                    : <></>
             })}
         </div>
     );
