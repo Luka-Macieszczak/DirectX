@@ -17,11 +17,14 @@ const ContextProvider = ({children}) => {
     const [viewers, setViewers] = useState([])
 
     useEffect(() => {
-
         session.on(Constants.SUCCESSFUL_CONNECTION, (ID) => {
             setSessionID(ID);
             console.log('sokcet id: ', ID);
         })
+        const tmp = JSON.parse(localStorage.getItem('user'))
+        console.log(tmp)
+        if(tmp !== null)
+            setUser(tmp)
     }, [])
 
     const registerAttempt = (userObj, navigate) => {
@@ -30,15 +33,19 @@ const ContextProvider = ({children}) => {
         session.on(Constants.REGISTER_COMPLETE, (res) => {
             if(res.result !== Constants.DEFAULT_REGISTER_FAILURE){
                 setUser(res.user);
+                localStorage.setItem('user', JSON.stringify(res.user))
                 navigate('/')
             }
 
         })
     }
 
-    const loginAttempt = async (userObj, navigate) => {
+    const loginAttempt = async (userObj) => {
         const [err, user] = await catchEm(handleSignIn(session, userObj));
-        if(!err) setUser(user)
+        if(!err) {
+            setUser(user)
+            localStorage.setItem('user', JSON.stringify(user))
+        }
         return err
     }
 

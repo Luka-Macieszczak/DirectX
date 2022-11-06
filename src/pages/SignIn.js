@@ -27,16 +27,6 @@ const SignIn = () => {
             if(err) setBottomText(err)
             else navigate('/')
 
-            /*
-            const [err, user] = await catchEm(handleSignin(userContext.session, userObj));
-
-            if(err){
-                setBottomText(err)
-            } else {
-                userContext.setUser(user)
-                navigate('/')
-            }
-             */
             console.log(userContext.user)
         } else{
             setBottomText('Please enter correct fields')

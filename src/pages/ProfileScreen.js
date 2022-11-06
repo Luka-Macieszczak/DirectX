@@ -7,7 +7,10 @@ const ProfileScreen = () => {
     const userContext = useContext(UserContext)
     let navigate = useNavigate();
 
-
+    useEffect(() => {
+        if(userContext.user === 'anon')
+            navigate('/')
+    }, [])
 
     return (
         <div className="w-screen bg-zinc-700 pt-[5%]">
@@ -16,9 +19,9 @@ const ProfileScreen = () => {
                 <button onClick={() => navigate('/StreamScreen')} className="signin-button mx-auto bg-zinc-900">Stream</button>
             </div>
             <div className="mt-10 rounded-md border-zinc-900 border-2 mx-auto w-11/12">
-                {userContext.user.subscriptions.map((element) => {
+                {userContext.user !== 'anon' ? userContext.user.subscriptions.map((element) => {
                     return <SubscriptionItem username={element} disabled={true}/>
-                })}
+                }): <></>}
             </div>
         </div>
     )

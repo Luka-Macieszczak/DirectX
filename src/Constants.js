@@ -1,5 +1,9 @@
 const Constants = {
-    SERVER_URL: 'http://localhost:4005',
+    // AWS EC2
+    // SERVER_URL: 'http://54.175.139.43:4005',
+
+    //Local host
+    SERVER_URL:'http://localhost:4005',
     SUCCESSFUL_CONNECTION:'connection success',
 
     REGISTER_COMPLETE:'REGISTER_COMPLETE',

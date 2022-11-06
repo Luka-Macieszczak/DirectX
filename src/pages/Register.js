@@ -32,17 +32,6 @@ const Register = () => {
 
         console.log(userContext.user)
         userContext.registerAttempt(userObj, navigate);
-        /*
-        userContext.session.emit(Constsants.REGISTER_ATTEMPT, userObj);
-
-        userContext.session.on(Constsants.REGISTER_COMPLETE, (res) => {
-            if(res.result != Constsants.DEFAULT_REGISTER_FAILURE){
-                userContext.setUser(res.user);
-                navigate('/')
-            }
-
-        })
-        */
     }
 
     const handleChangeUsername = (event) => {
