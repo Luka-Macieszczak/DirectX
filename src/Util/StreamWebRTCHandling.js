@@ -70,7 +70,6 @@ const onConnectRequest = (session, stream, sessionID) => {
         session.on(Constants.ANSWER,(dataObj) => {
             console.log('Answer received');
             rtcPeerConnection.setRemoteDescription(new RTCSessionDescription(dataObj.sdp));
-            // setViewers([...viewers, dataObj.toSocketID]);
         })
 }
 

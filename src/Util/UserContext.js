@@ -69,7 +69,7 @@ const ContextProvider = ({children}) => {
         });
     }
     const onConnect = (src) => {
-        onConnectRequest(session, src, sessionID);
+        onConnectRequest(session, src, sessionID, setViewers, viewers);
     }
 
     const connect = (videoRef, streamerUsername) => {
@@ -141,7 +141,7 @@ const ContextProvider = ({children}) => {
     const listenNewStreams = (streams, setStreams, tag) => {
         session.on(Constants.NEW_STREAM, (dataObj) => {
             console.log('new stream received: ' , dataObj.stream)
-            if(tag in dataObj.tags)
+            if(tag in dataObj.tags && !streams.includes(dataObj.stream))
                 setStreams([...streams, dataObj.stream])
         })
     }
@@ -168,6 +168,11 @@ const ContextProvider = ({children}) => {
         session.emit(Constants.NEW_SUBSCRIPTION, ({streamerUsername: streamerUsername, username: user}))
     }
 
+    const logout = () => {
+        localStorage.clear()
+        setUser('anon')
+    }
+
 
     return (
         <UserContext.Provider value={{
@@ -190,6 +195,7 @@ const ContextProvider = ({children}) => {
             listenNewStreams,
             listenStreamEnd,
             subscribeTo,
+            logout,
             joinedStream,
             setJoinedStream,
             viewers,

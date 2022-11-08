@@ -11,12 +11,13 @@ const StreamScroll = (props) => {
 
     useEffect(() => {
         userContext.requestStreams(props.tag)
+        userContext.listenStreams(streams, setStreams, props.tag)
+
         setLoading(false)
         console.log(props.tag)
     }, [])
 
     useEffect(() => {
-        userContext.listenStreams(streams, setStreams, props.tag)
         userContext.listenNewStreams(streams, setStreams, props.tag)
         userContext.listenStreamEnd(streams, setStreams, props.tag)
         console.log(streams)

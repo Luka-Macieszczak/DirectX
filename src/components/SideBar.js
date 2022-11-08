@@ -30,7 +30,7 @@ const SideBar = (props) => {
             return (
                 <Link to='/ProfileScreen'>
                     {userContext.user.profilePic !== '' ?
-                    <img src={userContext.user.profilePic} /> :
+                    <img className='mr-20 ml-5 mt-5 border h-16 rounded-full border-white' src={userContext.user.profilePic} /> :
                     <SideBarIcon icon={<FaUser color='white' className='mr-20 ml-5 mt-5 border rounded-full border-white' size="28" />} />
                     }
             </Link>

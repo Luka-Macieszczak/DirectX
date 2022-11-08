@@ -59,6 +59,8 @@ const Constants = {
         ]
     },
 
+    CLOUDFLARE_URL: 'https://api.cloudflare.com/client/v4/accounts/3519f19ef060a572ceb4b78750ff7e49/images/v1'
+
 
 }
 
