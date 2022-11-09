@@ -26,20 +26,22 @@ const StreamScroll = (props) => {
 
 
     return(
-        <div className="h-60 ml-[16.67%] w-5/6 flex bg-yellow mb-24">
+        <div className="scroll-container">
             <div className='flex flex-row overflow-x-scroll'>
                 {!loading ?
                 streams.map((element) => {
                     console.log('mapping: ', element)
                         return (
-                            <div onClick={() => navigate('/ViewStreamScreen', {state:{streamerUsername: element.username, description: element.description}})} className="object-contain w-full max-h-48">
+                            <div onClick={() => navigate('/ViewStreamScreen', {state:{streamerUsername: element.username, description: element.description}})} className="scroll-item">
                                 <img alt={"test"} className="w-full max-h-48" src='https://fomantic-ui.com/images/wireframe/white-image.png' />
                                 <div className='w-36 break-words'>{element.username}</div>
+
                             </div>
                         );
                     }) : <div></div>
                 }
             </div>
+
 
         </div>
     )

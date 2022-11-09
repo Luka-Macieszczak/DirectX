@@ -18,7 +18,7 @@ const MainPage = (props) => {
 
 
     return (
-        <div className='h-screen bg-zinc-800'>
+        <div className='h-full bg-zinc-800'>
             <SideBar />
             <div className={'h-1/3 w-screen'}>
 
@@ -26,8 +26,10 @@ const MainPage = (props) => {
             {Constants.TAGS.map((tag) => {
                 return(
                     <div>
-                        <div className='ml-[20%] text-red'>{tag}</div>
+                        <div className='ml-[20%] text-white text-xl font-extrabold '>{tag}</div>
                         <StreamScroll tag={tag}/>
+                        <div className='bg-orange w-[77%] mb-5 ml-[20%] h-[4px] rounded-sm'>.</div>
+
                     </div>
                 )
             })}

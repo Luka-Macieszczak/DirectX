@@ -40,6 +40,27 @@
       transition-all duration-100 ease-linear
       ;
     }
+
+    .scroll-container {
+        @apply h-60 ml-[16.67%] w-5/6 flex mb-24
+    }
+
+    .scroll-container:hover .scroll-item {
+        transform: translateX(-10%);
+    }
+
+    .scroll-item:hover ~ .scroll-item {
+        transform: translateX(10%);
+    }
+
+    .scroll-item:hover {
+        transform: scale(1.2) !important;
+    }
+
+    .scroll-item {
+        transition: transform 200ms ease 100ms;
+        @apply object-contain w-full max-h-48 mx-2 text-white
+    }
 }
 
 body {
