@@ -118,10 +118,12 @@ const ContextProvider = ({children}) => {
         profilePic: profile pic of sender
     }
      */
-    const handleReceiveChat = (messages, setMessages) => {
+    const handleReceiveChat = (messages, setMessages, muted) => {
         session.on(Constants.MESSAGE, (messageObj) => {
-            setMessages([...messages, {username: messageObj.username, profilePic: messageObj.profilePic, message: messageObj.message, isSender: false}])
-            console.log('Message received: ', messageObj)
+            if(!messageObj.username in muted){
+                setMessages([...messages, {username: messageObj.username, profilePic: messageObj.profilePic, message: messageObj.message, isSender: false}])
+            }
+            console.log('Message received: ', messageObj, muted)
         })
     }
 

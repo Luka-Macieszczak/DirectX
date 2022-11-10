@@ -12,6 +12,7 @@ const ChatBox = (props) => {
 
     const [messages, setMessages] = useState([]);
     const [text, setText] = useState('');
+    const [muted, setMuted] = useState({})
 
     /* Expect data to come in the form of:
         {
@@ -20,8 +21,8 @@ const ChatBox = (props) => {
         }
     */
     useEffect(() => {
-        userContext.handleReceiveChat(messages, setMessages)
-    }, [messages])
+        userContext.handleReceiveChat(messages, setMessages, muted)
+    }, [messages, muted])
 
     const sendMessage = () => {
         userContext.sendChat(text, props.streamerUsername)
@@ -33,11 +34,23 @@ const ChatBox = (props) => {
 
     const handleKeyDown = (event) => {
         if(event.key === 'Enter'){
-            sendMessage()
+            if(text[0] !== '/') {
+                sendMessage()
+            } else if (text.slice(0, 5).toUpperCase() === '/MUTE') {
+                setMuted((current) => {
+                    console.log('test')
+                    let copy = {...current}
+                    copy[text.slice(6, text.length)] = text.slice(6, text.length)
+                    return copy
+                })
+            }
+
+            console.log(muted)
             setMessages([...messages, {username: userContext.user.username, profilePic:userContext.user.profilePic, message:text, isSender:true}])
         }
-
     }
+
+
 
 
     return (
