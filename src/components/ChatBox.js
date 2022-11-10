@@ -34,7 +34,7 @@ const ChatBox = (props) => {
     const handleKeyDown = (event) => {
         if(event.key === 'Enter'){
             sendMessage()
-            setMessages([...messages, {username: userContext.user.username, message:text, isSender:true}])
+            setMessages([...messages, {username: userContext.user.username, profilePic:userContext.user.profilePic, message:text, isSender:true}])
         }
 
     }
@@ -44,7 +44,7 @@ const ChatBox = (props) => {
         <div className='chat-container'>
             <div className='bg-zinc-700 w-5/6 mx-auto my-5 h-[4px] rounded-sm'>.</div>
             {messages.map((item) => {
-                return (<TextBubble text={item.message} uri={'https://t3.ftcdn.net/jpg/03/46/83/96/360_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg'}/>)
+                return (<TextBubble username={item.username} text={item.message} uri={item.profilePic}/>)
             })}
             <input onKeyDown={handleKeyDown} onChange={handleChangeText} placeholder='    Send Message' className='bg-zinc-700 w-2/6 mx-auto h-[6%] rounded-md top-[90%] fixed'></input>
         </div>

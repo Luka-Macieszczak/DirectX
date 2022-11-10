@@ -41,6 +41,18 @@
       ;
     }
 
+    .text-item {
+        @apply    w-11/12 h-[8%]
+        bg-zinc-800
+        hover:bg-orange
+        mx-auto
+        my-[7px]
+        hover:rounded-xl rounded-3xl
+        shadow-lg p-[2%]
+        transition-all duration-100 ease-linear
+        ;
+    }
+
     .scroll-container {
         @apply h-60 ml-[16.67%] w-5/6 flex mb-24
     }

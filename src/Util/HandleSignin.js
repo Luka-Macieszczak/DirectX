@@ -2,12 +2,13 @@ import { sha256 } from 'js-sha256';
 import Constants from '../Constants';
 
 const handleSignIn = (socket, userObj) => {
-    
+
     return new Promise((resolve, reject) => {
-        
+
+        // Get randomly generated salt from server
         getSalt(socket, userObj)
             .then((res) => {
-                //console.log(res)
+                // Send user object to server
                 userObj.password = sha256(userObj.password + res)
                 console.log(userObj.password)
                 socket.emit(Constants.LOGIN_ATTEMPT, userObj)
@@ -16,17 +17,19 @@ const handleSignIn = (socket, userObj) => {
                     if(result != null) resolve(result)
                     else reject(Constants.INCORRECT_PASSWORD_ERR)
                 })
-                
+
             })
             .catch((err) => {
                 reject(err)
             })
     })
-    
+
 
 
 }
 
+// Request randomly generated salt from server
+// Salt is appended to password to avoid the same password to show up as the same text in the database
 const getSalt = (socket, userObj) => {
     return new Promise((resolve, reject) => {
         socket.emit(Constants.GET_SALT, {

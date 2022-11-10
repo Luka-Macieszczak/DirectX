@@ -17,16 +17,20 @@ const ContextProvider = ({children}) => {
     const [viewers, setViewers] = useState([])
 
     useEffect(() => {
+        // Listen to socket connection, and save the socket id when it arrives
         session.on(Constants.SUCCESSFUL_CONNECTION, (ID) => {
             setSessionID(ID);
             console.log('sokcet id: ', ID);
         })
+
+        // Attempt to log in if user has logged in before
         const tmp = JSON.parse(localStorage.getItem('user'))
         console.log(tmp)
         if(tmp !== null)
             setUser(tmp)
     }, [])
 
+    // Send user object to server, add new user if user doesn't exist
     const registerAttempt = (userObj, navigate) => {
         session.emit(Constants.REGISTER_ATTEMPT, userObj);
 
@@ -49,6 +53,7 @@ const ContextProvider = ({children}) => {
         return err
     }
 
+    // Tell server that this user is starting to stream
     const startStream = (tags, description) => {
         console.log('tags: ', tags)
         session.emit(Constants.START_STREAM, {socketID: sessionID,
@@ -61,6 +66,7 @@ const ContextProvider = ({children}) => {
         })
     }
 
+    // Tell server that this user is done streaming
     const endStream = (tags) => {
         session.emit(Constants.END_STREAM, {
             socketID: sessionID,
@@ -68,14 +74,19 @@ const ContextProvider = ({children}) => {
             tags: tags
         });
     }
+
+    // Wait for viewers to connect
+    // src is the source of the streamers screen recording
     const onConnect = (src) => {
         onConnectRequest(session, src, sessionID, setViewers, viewers);
     }
 
+    // Connect to streamer by webRTC, set video ref to ref of track
     const connect = (videoRef, streamerUsername) => {
         requestConnection(session, streamerUsername, videoRef, sessionID)
     }
 
+    // Join stream of param streamerUsername and set videoRef to the ref of the rtcPeerConnection track
     const joinStream = (videoRef, streamerUsername) => {
         if(!joinedStream){
             setJoinedStream(true);
@@ -100,9 +111,16 @@ const ContextProvider = ({children}) => {
 
     }
 
+    /*
+    messageObj:{
+        username: username of sender,
+        message: message being sent,
+        profilePic: profile pic of sender
+    }
+     */
     const handleReceiveChat = (messages, setMessages) => {
         session.on(Constants.MESSAGE, (messageObj) => {
-            setMessages([...messages, {username: messageObj.username, message: messageObj.message, isSender: false}])
+            setMessages([...messages, {username: messageObj.username, profilePic: messageObj.profilePic, message: messageObj.message, isSender: false}])
             console.log('Message received: ', messageObj)
         })
     }
@@ -111,7 +129,8 @@ const ContextProvider = ({children}) => {
         session.emit(Constants.MESSAGE, {
             streamerUsername: streamerUsername,
             username: user.username,
-            message: message
+            message: message,
+            profilePic: user.profilePic
         })
     }
 

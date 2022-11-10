@@ -29,7 +29,6 @@ const MainPage = (props) => {
                         <div className='ml-[20%] text-white text-xl font-extrabold '>{tag}</div>
                         <StreamScroll tag={tag}/>
                         <div className='bg-orange w-[77%] mb-5 ml-[20%] h-[4px] rounded-sm'>.</div>
-
                     </div>
                 )
             })}

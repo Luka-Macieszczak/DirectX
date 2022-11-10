@@ -17,10 +17,12 @@ const StreamScreen = () => {
     const myVideo = useRef();
 
     useEffect(() => {
+        // End stream when window unloads
         window.onunload = (event) => {
             userContext.endStream();
         }
         setTags({...tags, All:'All'})
+        // Request to capture streamers screen and set myVideo ref source to the source of the stream
         navigator.mediaDevices.getDisplayMedia({video: { width: { ideal: 1920, max: 1920 },
         height: { ideal: 1080, max: 1080 } }, audio: true })
         .then((currentStream) => {
@@ -45,6 +47,8 @@ const StreamScreen = () => {
         }
     }, [userContext.viewers])
 
+    // Start streaming
+    // Only run once
     const startStream = () => {
         console.log(tags)
         if(!streamStarted){
