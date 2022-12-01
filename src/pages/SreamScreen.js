@@ -81,7 +81,7 @@ const StreamScreen = () => {
             </div>
             <input onChange={(event) => handleChangeText(event)} onKeyDown={(event) => handleKeyDown(event)} type='text' disabled={streamStarted} placeholder='Description' className='ml-[25%] p-3 w-1/2 mt-[2%] h-[15%] border-zinc-900 border-2 bg-zinc-700 rounded-md'/>
             <button onClick={() => startStream()} className="signin-button mx-auto bg-zinc-900">Start Stream</button>
-            <button onClick={() => navigate('/ProfileScreen')} className="signin-button mx-auto bg-zinc-900">ugly go back</button>
+            <button onClick={() => navigate('/ProfileScreen')} className="signin-button mx-auto bg-zinc-900">go back</button>
 
         </div>
     )

@@ -24,11 +24,6 @@ const ViewStreamScreen = (props) => {
         }
     }, [])
 
-    const connectButtonHandler = () => {
-        // userContext.connect()
-        //requestConnection(userContext)
-    }
-
     const subscriptionButtonHandler = () => {
         userContext.subscribeTo(location.state.streamerUsername)
     }
@@ -39,8 +34,7 @@ const ViewStreamScreen = (props) => {
             <video controls playsInline muted ref={videoRef} autoPlay={true} className='h-2/3 mx-auto w-1/2' />
             <div className='ml-[25%] border-2 border-zinc-900 rounded-md h-[15%]'>{location.state.description}</div>
             <button onClick={() => subscriptionButtonHandler()} disabled={userContext.user === 'anon'} className='mx-auto w-[10%] font-extrabold text-redDark h-[6%] bg-red border-redDark rounded-sm border-4'>Subscribe</button>
-            <button onClick={() => connectButtonHandler()} className="signin-button mx-auto bg-zinc-900">DEBUG CONNECT</button>
-            <button onClick={() => navigate('/ProfileScreen')} className="signin-button mx-auto bg-zinc-900">ugly go back</button>
+            <button onClick={() => navigate('/ProfileScreen')} className="signin-button mx-auto bg-zinc-900">go back</button>
         </div>
     )
 

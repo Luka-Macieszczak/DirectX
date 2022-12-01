@@ -62,9 +62,9 @@ const ProfileScreen = () => {
             <input type='file' onChange={profilePicHandler} accept="image/*" id='file' ref={inputFile} style={{display: 'none'}} />
                 <img onClick={() => inputHandler()} className='w-1/3 mx-auto hover:opacity-30' src={userContext.user.profilePic}/>
             <div className="h-1/2">
-                <button onClick={() => navigate('/')} className="signin-button mx-auto bg-zinc-900">ugly go back</button>
+                <button onClick={() => navigate('/')} className="signin-button mx-auto bg-zinc-900">go back</button>
                 <button onClick={() => navigate('/StreamScreen')} className="signin-button mx-auto bg-zinc-900">Stream</button>
-                <button onClick={() => logoutHandler()} className="signin-button mx-auto bg-zinc-900">ugly log out</button>
+                <button onClick={() => logoutHandler()} className="signin-button mx-auto bg-zinc-900">log out</button>
             </div>
             <div className="mt-10 rounded-md border-zinc-900 border-2 mx-auto w-11/12">
                 {userContext.user !== 'anon' ? userContext.user.subscriptions.map((element) => {

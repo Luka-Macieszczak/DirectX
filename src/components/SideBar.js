@@ -48,7 +48,7 @@ const SideBar = (props) => {
     return (
         <div className='sidebar-container'>
             {topHeader()}
-            <div className='bg-orange w-5/6 mx-auto my-5 h-[4px] rounded-sm'>.</div>
+            <div className='bg-red w-5/6 mx-auto my-5 h-[4px] rounded-sm'>.</div>
             {streams.map((stream) => {
                 console.log(stream)
                 return userContext.user !== 'anon' && userContext.user.subscriptions.includes(stream.username) ?

@@ -8,7 +8,7 @@ import handleSignIn from "../Util/HandleSignin";
 
 const UserContext = React.createContext()
 
-const session  = io.connect(Constants.SERVER_URL, {jsonp: false});
+const session  = io.connect(Constants.SERVER_URL, {jsonp: false,});
 
 const ContextProvider = ({children}) => {
     const [user, setUser] = useState('anon');
@@ -120,10 +120,13 @@ const ContextProvider = ({children}) => {
      */
     const handleReceiveChat = (messages, setMessages, muted) => {
         session.on(Constants.MESSAGE, (messageObj) => {
-            if(!messageObj.username in muted){
+            if(!(messageObj.username in muted)){
+                console.log('setting')
                 setMessages([...messages, {username: messageObj.username, profilePic: messageObj.profilePic, message: messageObj.message, isSender: false}])
+            } else {
+                console.log('muted')
             }
-            console.log('Message received: ', messageObj, muted)
+            console.log('Message received: ', messageObj)
         })
     }
 
