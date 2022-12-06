@@ -196,6 +196,34 @@ const ContextProvider = ({children}) => {
         localStorage.clear()
         setUser('anon')
     }
+    /*
+    users = [
+        {
+            username: ***,
+            email: ***,
+            profilePic: ***,
+            authorization: ***,
+            subscriptions: [***...]
+        }...
+    ]
+     */
+    const getAllUsers = (setUserState) => {
+        session.emit(Constants.GET_ALL_USERS)
+        session.on(Constants.GET_ALL_USERS_ACK, (users) => {
+            console.log(users)
+            setUserState(users)
+        })
+    }
+
+    // Remove specified user
+    // Listen for new list of users
+    const removeUser = (user, setUserState) => {
+        session.emit(Constants.REMOVE_USER, user)
+        session.on(Constants.GET_ALL_USERS_ACK, (users) => {
+            console.log(users)
+            setUserState(users)
+        })
+    }
 
 
     return (
@@ -220,6 +248,8 @@ const ContextProvider = ({children}) => {
             listenStreamEnd,
             subscribeTo,
             logout,
+            getAllUsers,
+            removeUser,
             joinedStream,
             setJoinedStream,
             viewers,

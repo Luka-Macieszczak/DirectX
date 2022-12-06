@@ -1,6 +1,7 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { useNavigate } from 'react-router-dom';
 import SideBar from '../components/SideBar';
+import {UserContext} from '../Util/UserContext';
 import StreamScroll from "../components/StreamScroll";
 import Constants from "../Constants";
 
@@ -8,6 +9,8 @@ let height = window.innerHeight
 const MainPage = (props) => {
 
     let navigate = useNavigate();
+
+    let userContext = useContext(UserContext)
 
     let imageClass = `ml-[31%] h-[${height/5}px] w-[${height/4}px]`
     const getMainImage = () => {
@@ -32,6 +35,7 @@ const MainPage = (props) => {
                     </div>
                 )
             })}
+            {userContext.user !== 'anon' && userContext.user.authorization === 'admin' ? <button onClick={() => navigate('/AdminPage')} className='signin-button ml-[17%]'></button> : <></>}
 
         </div>
     );

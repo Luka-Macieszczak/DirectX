@@ -2,6 +2,7 @@ import React, {useState, useEffect, useContext, useRef} from "react";
 import { useNavigate } from "react-router-dom";
 import Constants from "../Constants";
 import onConnectRequest from "../Util/StreamWebRTCHandling";
+import ChatBox from "../components/ChatBox";
 import {UserContext} from "../Util/UserContext";
 import TagBox from "../components/TagBox";
 
@@ -72,9 +73,10 @@ const StreamScreen = () => {
     }
 
     return (
-        <div className="h-screen w-screen bg-zinc-700 pt-[5%]">
+        <div className="h-screen w-screen bg-zinc-700 pt-[5%] pr-[5%]">
             <video playsInline muted ref={myVideo} autoPlay={true} className='h-2/3 w-2/3 mx-auto' />
-            <div className='mx-auto flex flex-row mt-5 w-1/2 px-[1%]'>
+            <ChatBox streamerUsername={userContext.user.username}/>
+            <div className='mx-auto flex flex-row mt-5 w-1/2'>
                 {Constants.TAGS.map((tag) => {
                     return tag !== 'All' ? <TagBox tags={tags} setTags={setTags} streamStarted={streamStarted} tag={tag}/> : <></>
                 })}
