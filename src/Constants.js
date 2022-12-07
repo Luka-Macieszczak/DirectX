@@ -1,9 +1,9 @@
 const Constants = {
     // AWS EC2
-    // SERVER_URL: 'https://directx.live',
+    SERVER_URL: 'https://directx.live',
 
     //Local host
-    SERVER_URL:'http://127.0.0.1:4005',
+    // SERVER_URL:'http://127.0.0.1:4005',
     SUCCESSFUL_CONNECTION:'connection success',
 
     REGISTER_COMPLETE:'REGISTER_COMPLETE',
