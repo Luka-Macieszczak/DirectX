@@ -2,7 +2,8 @@
 
 Peer to peer streaming service.
 
-## [Youtube Link](https://www.youtube.com/watch?v=0KQ6Ke3pppk) [Server Code](https://github.com/Luka-Macieszczak/DirectXServer)
+## [Youtube Link](https://www.youtube.com/watch?v=0KQ6Ke3pppk) 
+## [Server Code](https://github.com/Luka-Macieszczak/DirectXServer)
 
 ## Available Scripts
 
