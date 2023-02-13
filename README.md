@@ -2,7 +2,7 @@
 
 Peer to peer streaming service.
 
-## [Live Site](https://directx.com)
+## [Live Site](https://directx.live)
 ## [Youtube Link](https://www.youtube.com/watch?v=0KQ6Ke3pppk) 
 ## [Server Code](https://github.com/Luka-Macieszczak/DirectXServer)
 
